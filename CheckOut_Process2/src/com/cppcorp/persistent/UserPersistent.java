@@ -29,7 +29,7 @@ public class UserPersistent {
     public List<User> getAll() throws SQLException{
         List<User> users = new ArrayList<>();
         Connectiondb conn = new Connectiondb();
-        ResultSet rs = conn.query("SELECT * FROM user");
+        ResultSet rs = conn.querySelect("SELECT * FROM user");
         AreaPersistent a = new AreaPersistent();
         while(rs.next()){
             User user = new User();
@@ -53,7 +53,7 @@ public class UserPersistent {
     public boolean usernameExist(String aux) throws SQLException{
         boolean found = false;
         Connectiondb conn = new Connectiondb();
-        ResultSet rs = conn.query("SELECT *  FROM user WHERE username ='"+aux+"'");
+        ResultSet rs = conn.querySelect("SELECT *  FROM user WHERE username ='"+aux+"'");
         while(rs.next()){
             found = true;
         }
@@ -74,7 +74,7 @@ public class UserPersistent {
     
     public User getByUsername(String username){
         Connectiondb conn = new Connectiondb();
-        ResultSet rs = conn.query("SELECT * FROM user WHERE username = '"+username+"'");
+        ResultSet rs = conn.querySelect("SELECT * FROM user WHERE username = '"+username+"'");
         User u = new User();
         try {
             rs.next();

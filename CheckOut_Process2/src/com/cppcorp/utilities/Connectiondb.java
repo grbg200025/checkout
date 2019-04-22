@@ -11,16 +11,18 @@ import com.cppcorp.entities.Area;
  * @author grbg
  */
 public class Connectiondb {
-    public ResultSet query(String query) {
+    
+    
+    public ResultSet querySelect(String query) {
         ResultSet rs = null;
 		try
 		{
 			Class.forName("com.mysql.jdbc.Driver");
-                        Connection con = DriverManager.getConnection(
+                        Connection conn = DriverManager.getConnection(
                                 "jdbc:mysql://localhost:3306/process_checkout","root",""
                         );
                         
-                        Statement stmt =con.createStatement();  
+                        Statement stmt =conn.createStatement();  
                         rs = stmt.executeQuery(query);
                         
 		}catch(Exception e) {
@@ -28,4 +30,7 @@ public class Connectiondb {
 		}
         return rs;        
 	}
+    public void queryInsert(String query, PreparedStatement preparedstatement){
+        
+    }
 }

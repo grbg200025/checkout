@@ -29,7 +29,7 @@ public class ProcessPersistent {
         AreaPersistent ap = new AreaPersistent();
         //Aqui hay que hacer el desmadre para obtener el area en el proceso
         Connectiondb conn = new Connectiondb();
-        ResultSet rs = conn.query("SELECT * FROM process WHERE id_area = "+id);
+        ResultSet rs = conn.querySelect("SELECT * FROM process WHERE id_area = "+id);
         
         while(rs.next()){
              ProcessC p = new ProcessC();
@@ -50,7 +50,7 @@ public class ProcessPersistent {
         AreaPersistent ap = new AreaPersistent();
         //Aqui hay que hacer el desmadre para obtener el area en el proceso
         Connectiondb conn = new Connectiondb();
-        ResultSet rs = conn.query("SELECT * FROM process");
+        ResultSet rs = conn.querySelect("SELECT * FROM process");
         
         while(rs.next()){
              ProcessC p = new ProcessC();

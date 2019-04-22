@@ -12,7 +12,11 @@ import com.cppcorp.persistent.ProcessPersistent;
 import com.cppcorp.persistent.UserPersistent;
 import com.cppcorp.utilities.Connectiondb;
 import com.cppcorp.views.fLogin;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -25,9 +29,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException {
-        System.out.println("The programs starts");
-        fLogin log = new fLogin();
-        log.setVisible(true);
+        AreaPersistent area = new AreaPersistent();
+        area.add("Heat Treat");
     }
-    
 }

@@ -12,5 +12,7 @@ import com.cppcorp.entities.Area;
  * @author grbg2
  */
 public class AreaBusiness extends Area {
-    
+    public void Insert (Area area){
+        PreparedStatement preparedStmt = 
+    }
 }
