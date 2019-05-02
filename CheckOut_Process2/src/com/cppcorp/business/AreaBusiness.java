@@ -6,13 +6,15 @@
 package com.cppcorp.business;
 
 import com.cppcorp.entities.Area;
+import com.cppcorp.persistent.AreaPersistent;
 
 /**
  *
  * @author grbg2
  */
 public class AreaBusiness extends Area {
-    public void Insert (Area area){
-        PreparedStatement preparedStmt = 
+    AreaPersistent a = new AreaPersistent();
+    public void Insert (String name){
+        a.add(name);
     }
 }
