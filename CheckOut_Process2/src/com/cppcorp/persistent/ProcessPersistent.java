@@ -40,6 +40,17 @@ public class ProcessPersistent {
         }
         return processesc;
     }
+    
+    public boolean exists(int id_area, String name) throws SQLException{
+        
+        AreaPersistent ap = new AreaPersistent();
+        //Aqui hay que hacer el desmadre para obtener el area en el proceso
+        Connectiondb conn = new Connectiondb();
+        ResultSet rs = conn.querySelect("SELECT * FROM process WHERE id_area = "+id_area+" AND name = '"+name+"'");
+        
+        
+        return rs.next();
+    }
     /**
      * This get all the process
      * @return
@@ -60,5 +71,23 @@ public class ProcessPersistent {
              processesc.add(p);
         }
         return processesc;
+    }
+    
+    public void insert(int id_area, String name){
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/process_checkout","root",""
+            );
+            
+            String query = "INSERT INTO process (id_area, name) VALUES (?, ?)";
+            
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setInt(1, id_area);
+            preparedStmt.setString(2, name);
+            preparedStmt.execute();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }

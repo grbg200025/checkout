@@ -11,6 +11,7 @@ import com.cppcorp.persistent.AreaPersistent;
 import com.cppcorp.persistent.ProcessPersistent;
 import com.cppcorp.persistent.UserPersistent;
 import com.cppcorp.utilities.Connectiondb;
+import com.cppcorp.views.fLogin;
 //import com.cppcorp.views.fLogin;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -29,7 +30,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException {
-        AreaPersistent area = new AreaPersistent();
-        area.add("Heat Treat");
+        fLogin view = new fLogin();
+        view.setVisible(true);
     }
 }

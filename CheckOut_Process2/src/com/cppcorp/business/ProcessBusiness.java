@@ -6,11 +6,13 @@
 package com.cppcorp.business;
 
 import com.cppcorp.entities.ProcessC;
+import com.cppcorp.persistent.ProcessPersistent;
 
 /**
  *
  * @author grbg2
  */
-public class ProcessBusiness extends ProcessC{
+public class ProcessBusiness extends ProcessPersistent{
+    
     
 }
