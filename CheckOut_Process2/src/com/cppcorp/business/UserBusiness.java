@@ -16,28 +16,10 @@ import java.util.List;
  *
  * @author grbg2
  */
-public class UserBusiness extends User{
-    UserPersistent up = new UserPersistent();
+public class UserBusiness extends UserPersistent{
     
-    public User login(String username, String password) throws SQLException{
-        User user = null;
-        if(up.usernameExist(username)){
-            User aux = up.getByUsername(username);
-            if(aux.password.equals(password)) user = aux;
-                
-            
-        }else{
-            System.out.println("The username doesn't exist");
-        }
-        return user;
-    }
+    
+    
 
-    public List<User> getAll() throws SQLException{
-        return up.getAll();
-    }
     
-    public Area getAreaById(int id) throws SQLException{
-        AreaPersistent ap = new AreaPersistent();
-        return ap.getById(id);
-    }
 }

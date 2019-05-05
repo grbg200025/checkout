@@ -5,11 +5,14 @@
  */
 package com.cppcorp.views;
 
+import com.cppcorp.views.Admin.fAdmin_MainMenu;
 import com.cppcorp.business.UserBusiness;
+import com.cppcorp.entities.User;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -130,17 +133,22 @@ public class fLogin extends javax.swing.JFrame {
     private void btnSigninActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSigninActionPerformed
         String tname = txtUser.getText();
         String tpassword = txtPassword.getText();
-        
         UserBusiness ub = new UserBusiness();
-        try {
-            if(ub.login(tname, tpassword) != null){
-                
+        User u;
+        u = ub.login(tname, tpassword);
+        if( u != null){
+            if(u.admin == 1){
+                fAdmin_MainMenu jam = new fAdmin_MainMenu();
+                jam.setUser(u);
+                jam.setVisible(true);
             }else{
-                lbError.setVisible(true);
+                
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(fLogin.class.getName()).log(Level.SEVERE, null, ex);
+            this.dispose();
+        }else{
+            lbError.setVisible(true);
         }
+        
         
     }//GEN-LAST:event_btnSigninActionPerformed
 

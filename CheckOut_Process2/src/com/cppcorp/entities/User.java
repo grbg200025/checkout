@@ -16,6 +16,7 @@ public class User {
     public Area area;
     public List<ProcessC> process;
     public String name;
+    public String last_name;
     public String username;
     public String password;
     public int admin;

@@ -68,6 +68,12 @@ public class fAddProcess extends javax.swing.JFrame {
 
         jLabel2.setText("Area");
 
+        cbArea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbAreaActionPerformed(evt);
+            }
+        });
+
         jLabel3.setText("Nombre");
 
         lbError.setForeground(new java.awt.Color(255, 0, 0));
@@ -176,6 +182,10 @@ public class fAddProcess extends javax.swing.JFrame {
                     Logger.getLogger(fAddProcess.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void cbAreaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAreaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbAreaActionPerformed
 
     /**
      * @param args the command line arguments

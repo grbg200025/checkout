@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
  *
  * @author grbg
  */
-public class UserPersistent {
+public class UserPersistent extends User {
     /**
      * 
      * @return returns all the users in the data base
@@ -66,10 +66,30 @@ public class UserPersistent {
      * @param password
      * @return 
      */
-    public boolean login(String username, String password){
-        User u;
-        u = getByUsername(username);
-        return u.password.equals(password);
+    public User login(String username, String password){
+        Connectiondb conn = new Connectiondb();
+        ResultSet rs = conn.querySelect("SELECT * FROM user WHERE username = '"+username+"' AND password = '"+password+"'");
+        User u = new User();
+        try {
+            rs.next();
+            
+            AreaPersistent ap = new AreaPersistent();
+            
+            
+            u.id = rs.getInt("id");
+            u.area = ap.getById(rs.getInt("id_area"));
+            u.name = rs.getString("name");
+            u.username = rs.getString("username");
+            u.password = rs.getString("password");
+            u.admin = rs.getInt("admin");
+            u.turn = rs.getInt("turn");
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(UserPersistent.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error : "+ex.toString());
+            
+        }
+        return u;
     }
     
     public User getByUsername(String username){
