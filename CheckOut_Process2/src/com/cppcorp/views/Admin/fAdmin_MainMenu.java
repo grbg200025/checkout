@@ -6,6 +6,7 @@
 package com.cppcorp.views.Admin;
 
 import com.cppcorp.entities.User;
+import com.cppcorp.views.fLogin;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,11 +42,14 @@ public class fAdmin_MainMenu extends javax.swing.JFrame {
         lbName = new javax.swing.JLabel();
         lbUsername = new javax.swing.JLabel();
         btnUsers = new javax.swing.JButton();
+        lbSalir = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        lbName.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lbName.setText("Namelb");
 
+        lbUsername.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         lbUsername.setText("Usernamelb");
 
         btnUsers.setText("Usuarios");
@@ -55,20 +59,29 @@ public class fAdmin_MainMenu extends javax.swing.JFrame {
             }
         });
 
+        lbSalir.setText("Salir");
+        lbSalir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbSalirMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(641, Short.MAX_VALUE)
-                .addComponent(lbUsername)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lbName)
-                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(78, 78, 78)
                 .addComponent(btnUsers)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(652, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lbUsername)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lbName)
+                .addGap(18, 18, 18)
+                .addComponent(lbSalir)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -76,10 +89,11 @@ public class fAdmin_MainMenu extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbName)
-                    .addComponent(lbUsername))
+                    .addComponent(lbUsername)
+                    .addComponent(lbSalir))
                 .addGap(108, 108, 108)
                 .addComponent(btnUsers)
-                .addContainerGap(434, Short.MAX_VALUE))
+                .addContainerGap(431, Short.MAX_VALUE))
         );
 
         pack();
@@ -92,12 +106,19 @@ public class fAdmin_MainMenu extends javax.swing.JFrame {
             fAdmin_users au;
             au = new fAdmin_users();
             au.setUser(user);
-            this.dispose();
+            au.setVisible(true);
+            setVisible(false);
         } catch (SQLException ex) {
             Logger.getLogger(fAdmin_MainMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }//GEN-LAST:event_btnUsersActionPerformed
+
+    private void lbSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbSalirMouseClicked
+        fLogin fl = new fLogin();
+        fl.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_lbSalirMouseClicked
 
     
     
@@ -139,6 +160,7 @@ public class fAdmin_MainMenu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnUsers;
     private javax.swing.JLabel lbName;
+    private javax.swing.JLabel lbSalir;
     private javax.swing.JLabel lbUsername;
     // End of variables declaration//GEN-END:variables
 }

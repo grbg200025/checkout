@@ -62,13 +62,25 @@ public class AreaPersistent {
     }
     
     public Area getById(int id) throws SQLException{
-        Area area = new Area();
-        Connectiondb conn = new Connectiondb();
-        ResultSet rs = conn.querySelect("SELECT *  FROM area WHERE id = '"+String.valueOf(id)+"'");
-        rs.next();
-        area.id = rs.getInt("id");
-        area.name = rs.getString("name");
-        //Aqui se agregaran los procesos
-        return area;
+        Area a = new Area();
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/process_checkout","root",""
+            );
+            
+            String query = "SELECT * FROM area WHERE id = ?";
+            
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setInt(1, id);
+            ResultSet rs = preparedStmt.executeQuery();
+            rs.next();
+            a.id = rs.getInt("id");
+            a.name = rs.getString("name");
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return a;
     }
 }

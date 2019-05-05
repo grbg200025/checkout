@@ -233,7 +233,11 @@ public class fAddUser extends javax.swing.JFrame {
                     if(tPass.equals(tCPass)){
                         
                         User u = new User();
-                        //u.area = ab.getById(--iArea);
+                        try {
+                            u.area = ab.getById(--iArea);
+                        } catch (SQLException ex) {
+                            Logger.getLogger(fAddUser.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                         u.name = tname;
                         u.last_name = tLastname;
                         char[] auxName = tname.toCharArray();

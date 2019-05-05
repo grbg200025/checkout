@@ -37,13 +37,14 @@ public class UserPersistent extends User {
         while(rs.next()){
             User user = new User();
             user.id = rs.getInt("id");
-            user.area = a.getById(rs.getInt("id"));
+            user.area = a.getById(rs.getInt("id_area"));
             user.name = rs.getString("name");
             user.last_name = rs.getString("last_name");
             user.username = rs.getString("username");
             user.password = rs.getString("password");
             user.admin = rs.getInt("admin");
             user.turn = rs.getInt("turn");
+            users.add(user);
         }
         return users;
     }
@@ -133,7 +134,7 @@ public class UserPersistent extends User {
             String query = "INSERT INTO user (id_area, name, last_name, username, password, admin, turn) VALUES (?, ?, ?, ?, ?, ?, ?)";
             
             PreparedStatement preparedStmt = conn.prepareStatement(query);
-            preparedStmt.setInt(1, 1/*u.area.id*/);
+            preparedStmt.setInt(1, u.area.id);
             preparedStmt.setString(2, u.name);
             preparedStmt.setString(3, u.last_name);
             preparedStmt.setString(4, u.username);

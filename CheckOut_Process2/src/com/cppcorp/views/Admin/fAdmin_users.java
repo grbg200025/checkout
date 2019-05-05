@@ -9,6 +9,7 @@ import com.cppcorp.business.AreaBusiness;
 import com.cppcorp.business.UserBusiness;
 import com.cppcorp.entities.Area;
 import com.cppcorp.entities.User;
+import com.cppcorp.views.fAddUser;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ public class fAdmin_users extends javax.swing.JFrame {
     UserBusiness ub = new UserBusiness();
     DefaultTableModel model = new DefaultTableModel();
     AreaBusiness ab = new AreaBusiness();
+    User user;
     
     
     public fAdmin_users() throws SQLException {
@@ -55,6 +57,7 @@ public class fAdmin_users extends javax.swing.JFrame {
         
     }
     public void setUser(User u){
+        user = u;
         lbUsername.setText(u.username);
         lbName.setText(" ("+u.name + ", " + u.last_name+")");
         
@@ -74,6 +77,13 @@ public class fAdmin_users extends javax.swing.JFrame {
         lbName = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbUsers = new javax.swing.JTable();
+        btnRegister = new javax.swing.JButton();
+        btnEliminate = new javax.swing.JToggleButton();
+        btnEdit = new javax.swing.JToggleButton();
+        jLabel1 = new javax.swing.JLabel();
+        txtSearch = new javax.swing.JTextField();
+        btnSearch = new javax.swing.JButton();
+        btnResetSearch = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -96,19 +106,54 @@ public class fAdmin_users extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tbUsers);
 
+        btnRegister.setText("Registrar nuevo usuario");
+        btnRegister.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegisterActionPerformed(evt);
+            }
+        });
+
+        btnEliminate.setText("Eliminar");
+
+        btnEdit.setText("Editar");
+
+        jLabel1.setText("Buscar usuario");
+
+        btnSearch.setText("Buscar");
+
+        btnResetSearch.setText("Quitar valores de busqueda");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lbUsername)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lbName)))
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(lbUsername)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lbName))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnRegister)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnEdit)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnEliminate))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSearch)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnResetSearch)
+                        .addGap(0, 12, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -118,9 +163,22 @@ public class fAdmin_users extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbName)
                     .addComponent(lbUsername))
-                .addGap(181, 181, 181)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnResetSearch)
+                        .addComponent(btnSearch)))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnRegister)
+                    .addComponent(btnEliminate)
+                    .addComponent(btnEdit))
+                .addGap(25, 25, 25))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -136,6 +194,16 @@ public class fAdmin_users extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
+        try {
+            // TODO add your handling code here:
+            fAddUser fau = new fAddUser();
+            fau.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(fAdmin_users.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnRegisterActionPerformed
 
     /**
      * @param args the command line arguments
@@ -177,10 +245,17 @@ public class fAdmin_users extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton btnEdit;
+    private javax.swing.JToggleButton btnEliminate;
+    private javax.swing.JButton btnRegister;
+    private javax.swing.JButton btnResetSearch;
+    private javax.swing.JButton btnSearch;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbName;
     private javax.swing.JLabel lbUsername;
     private javax.swing.JTable tbUsers;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }

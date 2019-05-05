@@ -8,6 +8,7 @@ package com.cppcorp.views;
 import com.cppcorp.views.Admin.fAdmin_MainMenu;
 import com.cppcorp.business.UserBusiness;
 import com.cppcorp.entities.User;
+import com.cppcorp.utilities.viewController;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -138,9 +139,10 @@ public class fLogin extends javax.swing.JFrame {
         u = ub.login(tname, tpassword);
         if( u != null){
             if(u.admin == 1){
-                fAdmin_MainMenu jam = new fAdmin_MainMenu();
-                jam.setUser(u);
-                jam.setVisible(true);
+                viewController.fam = new fAdmin_MainMenu();
+                viewController.fam.setUser(u);
+                viewController.fam.setVisible(true);
+                viewController.fl.dispose();
             }else{
                 
             }
