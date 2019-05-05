@@ -28,7 +28,7 @@ public class AreaPersistent {
      * @throws SQLException 
      */
     
-    public void add(String aux){
+    public void Insert(String aux){
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection(

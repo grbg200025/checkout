@@ -2,7 +2,9 @@ package com.cppcorp.views;
 
 import com.cppcorp.business.AreaBusiness;
 import com.cppcorp.business.ProcessBusiness;
+import com.cppcorp.business.UserBusiness;
 import com.cppcorp.entities.Area;
+import com.cppcorp.entities.User;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,7 @@ public class fAddUser extends javax.swing.JFrame {
     /**
      * Creates new form fAddUser
      */
+    UserBusiness ub = new UserBusiness();
     ProcessBusiness pb = new ProcessBusiness();
     AreaBusiness ab = new AreaBusiness();
     List<Area> areas;
@@ -228,7 +231,18 @@ public class fAddUser extends javax.swing.JFrame {
             if(iArea != 0 /*&& Check if is it a Admin*/){
                 if(iTurn != 0 /**/){
                     if(tPass.equals(tCPass)){
-                        JOptionPane.showMessageDialog(null,"Se ha realizado el guardado con exito");
+                        
+                        User u = new User();
+                        //u.area = ab.getById(--iArea);
+                        u.name = tname;
+                        u.last_name = tLastname;
+                        char[] auxName = tname.toCharArray();
+                        u.username = String.valueOf(auxName[0]+tLastname);
+                        u.password = tPass;
+                        u.turn = iTurn;
+                        u.admin = 0;
+                        ub.Insert(u);
+                        
                     }else{
                         lbError.setVisible(true);
                         lbError.setText("Las password no coinciden");

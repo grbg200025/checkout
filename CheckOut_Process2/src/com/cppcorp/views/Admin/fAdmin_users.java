@@ -5,7 +5,16 @@
  */
 package com.cppcorp.views.Admin;
 
+import com.cppcorp.business.AreaBusiness;
+import com.cppcorp.business.UserBusiness;
+import com.cppcorp.entities.Area;
 import com.cppcorp.entities.User;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -16,12 +25,39 @@ public class fAdmin_users extends javax.swing.JFrame {
     /**
      * Creates new form fAdmin_users
      */
-    public fAdmin_users() {
+    List<User> users;
+    UserBusiness ub = new UserBusiness();
+    DefaultTableModel model = new DefaultTableModel();
+    AreaBusiness ab = new AreaBusiness();
+    
+    
+    public fAdmin_users() throws SQLException {
         initComponents();
+        users = ub.getAll();
+        
+        model.addColumn("Area");
+        model.addColumn("Nombre");
+        model.addColumn("Apellido");
+        model.addColumn("Admin");
+        model.addColumn("Turno");
+        
+        for (User aux : users){
+            String row [] = {
+                aux.area.name,
+                aux.name,
+                aux.last_name,
+                String.valueOf(aux.admin),
+                String.valueOf(aux.turn)
+            };
+            model.addRow(row);
+        }
+        tbUsers.setModel(model);
+        
     }
     public void setUser(User u){
         lbUsername.setText(u.username);
         lbName.setText(" ("+u.name + ", " + u.last_name+")");
+        
     } 
 
     /**
@@ -37,7 +73,7 @@ public class fAdmin_users extends javax.swing.JFrame {
         lbUsername = new javax.swing.JLabel();
         lbName = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbUsers = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -47,18 +83,18 @@ public class fAdmin_users extends javax.swing.JFrame {
 
         lbName.setText("Namelb");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbUsers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tbUsers);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -131,7 +167,11 @@ public class fAdmin_users extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new fAdmin_users().setVisible(true);
+                try {
+                    new fAdmin_users().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(fAdmin_users.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -139,8 +179,8 @@ public class fAdmin_users extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lbName;
     private javax.swing.JLabel lbUsername;
+    private javax.swing.JTable tbUsers;
     // End of variables declaration//GEN-END:variables
 }

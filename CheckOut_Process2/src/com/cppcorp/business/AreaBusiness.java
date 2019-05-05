@@ -14,12 +14,7 @@ import java.util.List;
  *
  * @author grbg2
  */
-public class AreaBusiness extends Area {
-    AreaPersistent a = new AreaPersistent();
-    public List<Area> getAll () throws SQLException{
-        return a.getAll();
-    }
-    public void Insert (String name){
-        a.add(name);
-    }
+public class AreaBusiness extends AreaPersistent {
+    
+    
 }

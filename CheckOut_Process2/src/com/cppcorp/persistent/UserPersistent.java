@@ -8,6 +8,9 @@ package com.cppcorp.persistent;
 import com.cppcorp.entities.Area;
 import com.cppcorp.entities.User;
 import com.cppcorp.utilities.Connectiondb;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -36,6 +39,7 @@ public class UserPersistent extends User {
             user.id = rs.getInt("id");
             user.area = a.getById(rs.getInt("id"));
             user.name = rs.getString("name");
+            user.last_name = rs.getString("last_name");
             user.username = rs.getString("username");
             user.password = rs.getString("password");
             user.admin = rs.getInt("admin");
@@ -79,6 +83,7 @@ public class UserPersistent extends User {
             u.id = rs.getInt("id");
             u.area = ap.getById(rs.getInt("id_area"));
             u.name = rs.getString("name");
+            u.last_name = rs.getString("last_name");
             u.username = rs.getString("username");
             u.password = rs.getString("password");
             u.admin = rs.getInt("admin");
@@ -116,5 +121,28 @@ public class UserPersistent extends User {
             
         }
         return u;
+    }
+    
+    public void Insert(User u){
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/process_checkout","root",""
+            );
+            
+            String query = "INSERT INTO user (id_area, name, last_name, username, password, admin, turn) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setInt(1, 1/*u.area.id*/);
+            preparedStmt.setString(2, u.name);
+            preparedStmt.setString(3, u.last_name);
+            preparedStmt.setString(4, u.username);
+            preparedStmt.setString(5, u.password);
+            preparedStmt.setInt(6, u.admin);
+            preparedStmt.setInt(7, u.turn);
+            preparedStmt.execute();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }

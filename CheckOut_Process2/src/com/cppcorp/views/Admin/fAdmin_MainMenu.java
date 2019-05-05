@@ -6,6 +6,9 @@
 package com.cppcorp.views.Admin;
 
 import com.cppcorp.entities.User;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -22,6 +25,7 @@ public class fAdmin_MainMenu extends javax.swing.JFrame {
     }
 
     public void setUser(User u){
+        user = u;
         lbUsername.setText(u.username);
         lbName.setText(" ("+u.name + ", " + u.last_name+")");
     } 
@@ -45,6 +49,11 @@ public class fAdmin_MainMenu extends javax.swing.JFrame {
         lbUsername.setText("Usernamelb");
 
         btnUsers.setText("Usuarios");
+        btnUsers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUsersActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -75,6 +84,20 @@ public class fAdmin_MainMenu extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsersActionPerformed
+        // TODO add your handling code here:
+        
+        try {
+            fAdmin_users au;
+            au = new fAdmin_users();
+            au.setUser(user);
+            this.dispose();
+        } catch (SQLException ex) {
+            Logger.getLogger(fAdmin_MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_btnUsersActionPerformed
 
     
     
