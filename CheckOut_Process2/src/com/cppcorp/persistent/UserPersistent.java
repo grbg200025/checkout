@@ -48,6 +48,35 @@ public class UserPersistent extends User {
         }
         return users;
     }
+    
+    public List<User> search(String s) throws SQLException, ClassNotFoundException{
+        List<User> users = new ArrayList<>();
+        Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/process_checkout","root",""
+            );
+        String query  = "SELECT * FROM user WHERE name = ? OR last_name = ? OR username = ?";
+        PreparedStatement ps = conn.prepareStatement(query);
+        ps.setString(1, s);
+        ps.setString(2, s);
+        ps.setString(3, s);
+        
+        ResultSet rs = ps.executeQuery();
+        AreaPersistent a = new AreaPersistent();
+        while(rs.next()){
+            User user = new User();
+            user.id = rs.getInt("id");
+            user.area = a.getById(rs.getInt("id_area"));
+            user.name = rs.getString("name");
+            user.last_name = rs.getString("last_name");
+            user.username = rs.getString("username");
+            user.password = rs.getString("password");
+            user.admin = rs.getInt("admin");
+            user.turn = rs.getInt("turn");
+            users.add(user);
+        }
+        return users;
+    }
     /**
      * Checks if the username exist in login
      * @param aux

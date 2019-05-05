@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  *
  * @author grbg
  */
-public class fAdmin_MainMenu extends javax.swing.JFrame {
+public final class fAdmin_MainMenu extends javax.swing.JFrame {
 
     /**
      * Creates new form fAdmin_MainMenu

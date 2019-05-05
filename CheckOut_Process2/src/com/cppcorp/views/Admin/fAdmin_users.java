@@ -36,6 +36,16 @@ public class fAdmin_users extends javax.swing.JFrame {
     
     public fAdmin_users() throws SQLException {
         initComponents();
+        setUser(viewController.user);
+        
+        loadAllUsers();
+        
+        
+        
+    }
+    
+    private void loadAllUsers() throws SQLException{
+        model = new DefaultTableModel();
         users = ub.getAll();
         
         model.addColumn("Area");
@@ -43,7 +53,6 @@ public class fAdmin_users extends javax.swing.JFrame {
         model.addColumn("Apellido");
         model.addColumn("Admin");
         model.addColumn("Turno");
-        
         for (User aux : users){
             String row [] = {
                 aux.area.name,
@@ -55,8 +64,30 @@ public class fAdmin_users extends javax.swing.JFrame {
             model.addRow(row);
         }
         tbUsers.setModel(model);
-        
     }
+    
+    private void loadAllSearchedUsers(String s) throws SQLException, ClassNotFoundException{
+        model = new DefaultTableModel();
+        users = ub.search(s);
+        
+        model.addColumn("Area");
+        model.addColumn("Nombre");
+        model.addColumn("Apellido");
+        model.addColumn("Admin");
+        model.addColumn("Turno");
+        for (User aux : users){
+            String row [] = {
+                aux.area.name,
+                aux.name,
+                aux.last_name,
+                String.valueOf(aux.admin),
+                String.valueOf(aux.turn)
+            };
+            model.addRow(row);
+        }
+        tbUsers.setModel(model);
+    }
+    
     public void setUser(User u){
         user = u;
         lbUsername.setText(u.username);
@@ -122,8 +153,18 @@ public class fAdmin_users extends javax.swing.JFrame {
         jLabel1.setText("Buscar usuario");
 
         btnSearch.setText("Buscar");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
 
         btnResetSearch.setText("Quitar valores de busqueda");
+        btnResetSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetSearchActionPerformed(evt);
+            }
+        });
 
         lbBack.setText("Volver a menu");
         lbBack.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -220,6 +261,24 @@ public class fAdmin_users extends javax.swing.JFrame {
         viewController.fam.setVisible(true);
         viewController.fau.dispose();
     }//GEN-LAST:event_lbBackMouseClicked
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        try {
+            loadAllSearchedUsers(txtSearch.getText());
+        } catch (SQLException ex) {
+            Logger.getLogger(fAdmin_users.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(fAdmin_users.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void btnResetSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetSearchActionPerformed
+        try {
+            loadAllUsers();
+        } catch (SQLException ex) {
+            Logger.getLogger(fAdmin_users.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnResetSearchActionPerformed
 
     /**
      * @param args the command line arguments

@@ -132,7 +132,7 @@ public class fLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSigninActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSigninActionPerformed
-        String tname = txtUser.getText();
+        String tname = txtUser.getText().toUpperCase();
         String tpassword = txtPassword.getText();
         UserBusiness ub = new UserBusiness();
         User u;
