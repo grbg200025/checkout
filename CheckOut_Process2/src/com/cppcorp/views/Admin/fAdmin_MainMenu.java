@@ -6,6 +6,8 @@
 package com.cppcorp.views.Admin;
 
 import com.cppcorp.entities.User;
+import com.cppcorp.utilities.viewController;
+import com.cppcorp.views.fAddUser;
 import com.cppcorp.views.fLogin;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -100,14 +102,11 @@ public class fAdmin_MainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnUsersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsersActionPerformed
-        // TODO add your handling code here:
         
         try {
-            fAdmin_users au;
-            au = new fAdmin_users();
-            au.setUser(user);
-            au.setVisible(true);
-            setVisible(false);
+            viewController.fau = new fAdmin_users();
+            viewController.fau.setVisible(true);
+            viewController.fam.setVisible(false);
         } catch (SQLException ex) {
             Logger.getLogger(fAdmin_MainMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -115,9 +114,10 @@ public class fAdmin_MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnUsersActionPerformed
 
     private void lbSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbSalirMouseClicked
-        fLogin fl = new fLogin();
-        fl.setVisible(true);
-        dispose();
+        
+        viewController.fl = new fLogin();
+        viewController.fl.setVisible(true);
+        
     }//GEN-LAST:event_lbSalirMouseClicked
 
     

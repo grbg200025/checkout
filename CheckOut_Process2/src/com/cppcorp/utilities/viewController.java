@@ -9,6 +9,7 @@ package com.cppcorp.utilities;
 import com.cppcorp.entities.User;
 import com.cppcorp.views.Admin.fAdmin_MainMenu;
 import com.cppcorp.views.Admin.fAdmin_users;
+import com.cppcorp.views.fAddUser;
 import com.cppcorp.views.fLogin;
 
 /**
@@ -17,9 +18,12 @@ import com.cppcorp.views.fLogin;
  */
 public class viewController {
     static public User user;
+    
     static public fLogin fl;
+    
     static public fAdmin_MainMenu fam;
     static public fAdmin_users fau;
     
+    static public fAddUser fadu;
     
 }

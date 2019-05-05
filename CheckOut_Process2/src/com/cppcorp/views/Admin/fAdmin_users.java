@@ -9,6 +9,7 @@ import com.cppcorp.business.AreaBusiness;
 import com.cppcorp.business.UserBusiness;
 import com.cppcorp.entities.Area;
 import com.cppcorp.entities.User;
+import com.cppcorp.utilities.viewController;
 import com.cppcorp.views.fAddUser;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -84,6 +85,7 @@ public class fAdmin_users extends javax.swing.JFrame {
         txtSearch = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
         btnResetSearch = new javax.swing.JButton();
+        lbBack = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -123,6 +125,13 @@ public class fAdmin_users extends javax.swing.JFrame {
 
         btnResetSearch.setText("Quitar valores de busqueda");
 
+        lbBack.setText("Volver a menu");
+        lbBack.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbBackMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -134,7 +143,8 @@ public class fAdmin_users extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(lbBack)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(lbUsername)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(lbName))
@@ -162,7 +172,8 @@ public class fAdmin_users extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbName)
-                    .addComponent(lbUsername))
+                    .addComponent(lbUsername)
+                    .addComponent(lbBack))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -204,6 +215,11 @@ public class fAdmin_users extends javax.swing.JFrame {
             Logger.getLogger(fAdmin_users.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnRegisterActionPerformed
+
+    private void lbBackMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbBackMouseClicked
+        viewController.fam.setVisible(true);
+        viewController.fau.dispose();
+    }//GEN-LAST:event_lbBackMouseClicked
 
     /**
      * @param args the command line arguments
@@ -253,6 +269,7 @@ public class fAdmin_users extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbBack;
     private javax.swing.JLabel lbName;
     private javax.swing.JLabel lbUsername;
     private javax.swing.JTable tbUsers;
