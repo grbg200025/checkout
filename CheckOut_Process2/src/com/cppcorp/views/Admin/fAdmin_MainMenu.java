@@ -25,6 +25,7 @@ public class fAdmin_MainMenu extends javax.swing.JFrame {
     User user = new User();
     public fAdmin_MainMenu() {
         initComponents();
+        setUser(viewController.user);
     }
 
     public void setUser(User u){
@@ -105,6 +106,7 @@ public class fAdmin_MainMenu extends javax.swing.JFrame {
         
         try {
             viewController.fau = new fAdmin_users();
+            
             viewController.fau.setVisible(true);
             viewController.fam.setVisible(false);
         } catch (SQLException ex) {

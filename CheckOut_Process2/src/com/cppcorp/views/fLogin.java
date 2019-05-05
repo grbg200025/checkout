@@ -139,8 +139,9 @@ public class fLogin extends javax.swing.JFrame {
         u = ub.login(tname, tpassword);
         if( u != null){
             if(u.admin == 1){
+                viewController.user = u;
                 viewController.fam = new fAdmin_MainMenu();
-                viewController.fam.setUser(u);
+                
                 viewController.fam.setVisible(true);
                 viewController.fl.dispose();
             }else{
