@@ -32,6 +32,7 @@ public class fAddUser extends javax.swing.JFrame {
     ProcessBusiness pb = new ProcessBusiness();
     AreaBusiness ab = new AreaBusiness();
     List<Area> areas;
+    Area area = null;
     
     public fAddUser() throws SQLException {
         initComponents();
@@ -45,6 +46,11 @@ public class fAddUser extends javax.swing.JFrame {
         }
     }
 
+    public void setArea(Area area){
+        cbArea.setVisible(false);
+        this.area = area;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -240,15 +246,20 @@ public class fAddUser extends javax.swing.JFrame {
 
         //Se validadara que todo se haya llenado correctamente
         if(!tname.equals("") || !tLastname.equals("") || !tPass.equals("") || tCPass.equals("")){
-            if(iArea != 0 /*&& Check if is it a Admin*/){
+            if(iArea != 0 || area != null/*&& Check if is it a Admin*/){
                 if(iTurn != 0 /**/){
                     if(tPass.equals(tCPass)){
                         
                         User u = new User();
-                        try {
-                            u.area = ab.getById(--iArea);
-                        } catch (SQLException ex) {
-                            Logger.getLogger(fAddUser.class.getName()).log(Level.SEVERE, null, ex);
+                        if(area != null){
+                            
+                            try {
+                                u.area = ab.getById(--iArea);
+                            } catch (SQLException ex) {
+                                Logger.getLogger(fAddUser.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }else{
+                            u.area = area;
                         }
                         u.name = tname;
                         u.last_name = tLastname;

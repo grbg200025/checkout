@@ -25,11 +25,10 @@ public class NewMain {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SQLException {
+        UserBusiness ub = new UserBusiness();
         AreaBusiness ab = new AreaBusiness();
-        System.out.println(ab.getById(1).name);
-        User user = viewController.user;
-        user.name = "steve";
-        System.out.println(user.name);
+        
+        ub.getByAreaId(1);
     }
     
     

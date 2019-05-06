@@ -46,6 +46,7 @@ public final class fAdmin_MainMenu extends javax.swing.JFrame {
         lbUsername = new javax.swing.JLabel();
         btnUsers = new javax.swing.JButton();
         lbSalir = new javax.swing.JLabel();
+        btnAreasProcesos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -69,6 +70,13 @@ public final class fAdmin_MainMenu extends javax.swing.JFrame {
             }
         });
 
+        btnAreasProcesos.setText("Areas y procesos");
+        btnAreasProcesos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAreasProcesosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -76,7 +84,9 @@ public final class fAdmin_MainMenu extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(78, 78, 78)
                 .addComponent(btnUsers)
-                .addContainerGap(652, Short.MAX_VALUE))
+                .addGap(42, 42, 42)
+                .addComponent(btnAreasProcesos)
+                .addContainerGap(486, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lbUsername)
@@ -95,7 +105,9 @@ public final class fAdmin_MainMenu extends javax.swing.JFrame {
                     .addComponent(lbUsername)
                     .addComponent(lbSalir))
                 .addGap(108, 108, 108)
-                .addComponent(btnUsers)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnUsers)
+                    .addComponent(btnAreasProcesos))
                 .addContainerGap(431, Short.MAX_VALUE))
         );
 
@@ -121,6 +133,17 @@ public final class fAdmin_MainMenu extends javax.swing.JFrame {
         viewController.fl.setVisible(true);
         
     }//GEN-LAST:event_lbSalirMouseClicked
+
+    private void btnAreasProcesosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAreasProcesosActionPerformed
+        try {
+            viewController.fap = new fAdmin_ap();
+            viewController.fap.setVisible(true);
+            viewController.fam.setVisible(false);
+        } catch (SQLException ex) {
+            Logger.getLogger(fAdmin_MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_btnAreasProcesosActionPerformed
 
     
     
@@ -160,6 +183,7 @@ public final class fAdmin_MainMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAreasProcesos;
     private javax.swing.JButton btnUsers;
     private javax.swing.JLabel lbName;
     private javax.swing.JLabel lbSalir;

@@ -45,6 +45,26 @@ public class AreaPersistent {
         }
     }
     
+    public boolean NameExists(String name){
+        boolean result = false;
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/process_checkout","root",""
+            );
+            
+            String query = "SELECT * FROM area  WHERE name = (?)";
+            
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setString(1, name);
+            ResultSet rs = preparedStmt.executeQuery();
+            result = rs.next();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+    
     public List<Area> getAll() throws SQLException{
         List<Area> areas = new ArrayList<>();
         Connectiondb conn = new Connectiondb();

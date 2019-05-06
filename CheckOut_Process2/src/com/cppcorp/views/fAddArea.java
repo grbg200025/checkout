@@ -6,6 +6,10 @@
 package com.cppcorp.views;
 
 import com.cppcorp.business.AreaBusiness;
+import com.cppcorp.utilities.viewController;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -112,8 +116,15 @@ public class fAddArea extends javax.swing.JFrame {
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
         AreaBusiness ab = new AreaBusiness();
         String tname = txtName.getText();
-        
-        ab.Insert(tname);
+        if(!ab.NameExists(tname)){
+            ab.Insert(tname);
+            viewController.fap.setVisible(true);
+            try {
+                viewController.fap.loadTables();
+            } catch (SQLException ex) {
+                Logger.getLogger(fAddArea.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else lbError.setVisible(true);
     }//GEN-LAST:event_btnRegisterActionPerformed
 
     /**

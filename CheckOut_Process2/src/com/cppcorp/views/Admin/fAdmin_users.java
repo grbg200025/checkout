@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -137,6 +138,11 @@ public class fAdmin_users extends javax.swing.JFrame {
 
             }
         ));
+        tbUsers.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbUsersMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbUsers);
 
         btnRegister.setText("Registrar nuevo usuario");
@@ -149,6 +155,11 @@ public class fAdmin_users extends javax.swing.JFrame {
         btnEliminate.setText("Eliminar");
 
         btnEdit.setText("Editar");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Buscar usuario");
 
@@ -279,6 +290,30 @@ public class fAdmin_users extends javax.swing.JFrame {
             Logger.getLogger(fAdmin_users.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnResetSearchActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        try{
+            int index = tbUsers.getSelectedRow();
+            User aux = users.get(index);
+            JOptionPane.showMessageDialog(this, aux.name);
+        
+        }catch(IndexOutOfBoundsException e){
+            JOptionPane.showMessageDialog(this, "No se ha seleccionado ningun usuario");
+        }
+        
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void tbUsersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbUsersMouseClicked
+        try{
+            int index = tbUsers.getSelectedRow();
+            User aux = users.get(index);
+            JOptionPane.showMessageDialog(this, aux.name);
+        
+        }catch(IndexOutOfBoundsException e){
+            
+        }
+        
+    }//GEN-LAST:event_tbUsersMouseClicked
 
     /**
      * @param args the command line arguments

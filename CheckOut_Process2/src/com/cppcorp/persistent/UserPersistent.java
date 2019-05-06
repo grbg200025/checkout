@@ -153,6 +153,34 @@ public class UserPersistent extends User {
         return u;
     }
     
+    public List<User> getByAreaId(int id){
+        Connectiondb conn = new Connectiondb();
+        ResultSet rs = conn.querySelect("SELECT * FROM user WHERE  id_area = "+id);
+        List<User> users = new ArrayList();
+        try {
+            
+            while(rs.next()){
+            User u = new User();    
+            AreaPersistent ap = new AreaPersistent();
+            
+            
+            u.id = rs.getInt("id");
+            u.area = ap.getById(rs.getInt("id_area"));
+            u.name = rs.getString("name");
+            u.username = rs.getString("username");
+            u.password = rs.getString("password");
+            u.admin = rs.getInt("admin");
+            u.turn = rs.getInt("turn");
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(UserPersistent.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error : "+ex.toString());
+            
+        }
+        return users;
+    }
+    
     public void Insert(User u){
         try{
             Class.forName("com.mysql.jdbc.Driver");
