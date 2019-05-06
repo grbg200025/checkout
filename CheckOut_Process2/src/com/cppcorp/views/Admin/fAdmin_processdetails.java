@@ -5,6 +5,15 @@
  */
 package com.cppcorp.views.Admin;
 
+import com.cppcorp.business.ProcessBusiness;
+import com.cppcorp.business.UserBusiness;
+import com.cppcorp.entities.ProcessC;
+import com.cppcorp.entities.User;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author grbg
@@ -14,10 +23,43 @@ public class fAdmin_processdetails extends javax.swing.JFrame {
     /**
      * Creates new form fAdmin_processdetails
      */
+    
+    public ProcessC process;
+    public UserBusiness ub = new UserBusiness();
+    public ProcessBusiness pb = new ProcessBusiness();
+    List<User> users = new ArrayList();
+    DefaultTableModel model = new DefaultTableModel();
+    
     public fAdmin_processdetails() {
         initComponents();
     }
 
+    public void setProcess() throws SQLException{
+        lbProcess.setText(process.name+" ("+process.area.name+")");
+        loadTables();
+    }
+    public void loadTables() throws SQLException{
+        model = new DefaultTableModel();
+        users = process.user;
+                
+        model.addColumn("Area");
+        model.addColumn("Nombre");
+        model.addColumn("Apellido");
+        model.addColumn("Admin");
+        model.addColumn("Turno");
+        for (User aux : users){
+            String row [] = {
+                aux.area.name,
+                aux.name,
+                aux.last_name,
+                String.valueOf(aux.admin),
+                String.valueOf(aux.turn)
+            };
+            model.addRow(row);
+        }
+        tbUsers.setModel(model);
+    }        
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,27 +70,63 @@ public class fAdmin_processdetails extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        lbProcess = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbUsers = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("jLabel1");
+        lbProcess.setFont(new java.awt.Font("Ubuntu", 0, 24)); // NOI18N
+        lbProcess.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbProcess.setText("lbProcess");
+
+        tbUsers.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tbUsers);
+
+        jButton1.setText("Agregar Usuario");
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Usuarios");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(378, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(373, 373, 373))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbProcess, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(lbProcess)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addContainerGap(570, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -101,7 +179,11 @@ public class fAdmin_processdetails extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbProcess;
+    private javax.swing.JTable tbUsers;
     // End of variables declaration//GEN-END:variables
 }

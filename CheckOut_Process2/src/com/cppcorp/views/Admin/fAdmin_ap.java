@@ -12,6 +12,7 @@ import com.cppcorp.entities.ProcessC;
 import com.cppcorp.entities.User;
 import com.cppcorp.utilities.viewController;
 import com.cppcorp.views.fAddArea;
+import com.cppcorp.views.fAddProcess;
 import com.cppcorp.views.fAddUser;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -125,9 +126,19 @@ public class fAdmin_ap extends javax.swing.JFrame {
                 "Area", "Proceso"
             }
         ));
+        tbProcess.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbProcessMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tbProcess);
 
         jButton2.setText("Registrar Proceso");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         lbBack.setText("Regresar");
         lbBack.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -230,6 +241,34 @@ public class fAdmin_ap extends javax.swing.JFrame {
         viewController.fada.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btRegisterAreaActionPerformed
+
+    private void tbProcessMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbProcessMouseClicked
+        
+        try {
+            int i = tbProcess.getSelectedRow();
+            ProcessC process = processes.get(i);
+            viewController.fapd = new fAdmin_processdetails();
+            viewController.fapd.process = process;
+            viewController.fapd.setProcess();
+            viewController.fapd.setVisible(true);
+            this.setVisible(false);
+        } catch (SQLException ex) {
+            Logger.getLogger(fAdmin_ap.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }//GEN-LAST:event_tbProcessMouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+            viewController.fadp = new fAddProcess();
+            viewController.fadp.setVisible(true);
+            this.setVisible(false);
+        } catch (SQLException ex) {
+            Logger.getLogger(fAdmin_ap.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

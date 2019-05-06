@@ -14,7 +14,9 @@ import java.util.Date;
 public class Register {
     public int id;
     public ProcessC process;
+    public User user;
     public Date date;
+    public Date dateRegistered;
     public int microcell;
     public int turn;
     

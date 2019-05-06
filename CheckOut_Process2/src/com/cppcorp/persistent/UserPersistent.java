@@ -154,6 +154,35 @@ public class UserPersistent extends User {
         return u;
     }
     
+     public User getById(int id){
+        Connectiondb conn = new Connectiondb();
+        ResultSet rs = conn.querySelect("SELECT * FROM user WHERE  id = "+id);
+        User u = new User();
+        try {
+            
+            if(rs.next()){
+              
+            AreaPersistent ap = new AreaPersistent();
+            
+            
+            u.id = rs.getInt("id");
+            u.area = ap.getById(rs.getInt("id_area"));
+            u.name = rs.getString("name");
+            u.last_name = rs.getString("last_name");
+            u.username = rs.getString("username");
+            u.password = rs.getString("password");
+            u.admin = rs.getInt("admin");
+            u.turn = rs.getInt("turn");
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(UserPersistent.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error : "+ex.toString());
+            
+        }
+        return u;
+    }
+    
     public List<User> getByAreaId(int id){
         Connectiondb conn = new Connectiondb();
         ResultSet rs = conn.querySelect("SELECT * FROM user WHERE  id_area = "+id);

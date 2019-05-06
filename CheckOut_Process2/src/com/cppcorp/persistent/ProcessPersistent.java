@@ -5,7 +5,9 @@
  */
 package com.cppcorp.persistent;
 
+import com.cppcorp.business.UserBusiness;
 import com.cppcorp.entities.ProcessC;
+import com.cppcorp.entities.User;
 import com.cppcorp.utilities.Connectiondb;
 import java.util.List;
 import java.sql.*;
@@ -36,6 +38,7 @@ public class ProcessPersistent {
              p.id = rs.getInt(1);
              p.area = ap.getById(rs.getInt(2));
              p.name = rs.getString(3);
+             p.user = getUsersById(p.id, p.area.id);
              processesc.add(p);
         }
         return processesc;
@@ -70,6 +73,7 @@ public class ProcessPersistent {
              p.id = rs.getInt(1);
              p.area = ap.getById(rs.getInt(2));
              p.name = rs.getString(3);
+             p.user = getUsersById(p.id, p.area.id);
              processesc.add(p);
         }
         return processesc;
@@ -91,5 +95,46 @@ public class ProcessPersistent {
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+    
+    public List<User> getUsersById(int id, int id_area) throws SQLException{
+        UserBusiness ub = new UserBusiness();
+        List<User> users = new ArrayList<>();
+        AreaPersistent ap = new AreaPersistent();
+        //Aqui hay que hacer el desmadre para obtener el area en el proceso
+        Connectiondb conn = new Connectiondb();
+        ResultSet rs = conn.querySelect("SELECT * FROM processuser WHERE id_area = ("+id_area+") AND id_process = "+id);
+        
+        while(rs.next()){
+             users.add(ub.getById(rs.getInt("id_user")));
+        }
+        return users;
+    }
+    
+    public List<User> getUsersByIdNotIncluded(int id, int id_area) throws SQLException{
+        UserBusiness ub = new UserBusiness();
+        List<User> users = new ArrayList<>();
+        AreaPersistent ap = new AreaPersistent();
+        //Aqui hay que hacer el desmadre para obtener el area en el proceso
+        Connectiondb conn = new Connectiondb();
+        ResultSet rs = conn.querySelect("SELECT * FROM processuser WHERE id_area = ("+id_area+") OR id_process NOT IN ("+id+")");
+        
+        while(rs.next()){
+             users.add(ub.getById(rs.getInt("id_user")));
+        }
+        return users;
+        /*List<User> users = new ArrayList();
+        UserBusiness ub = new UserBusiness();
+        
+        Connectiondb conn = new Connectiondb();
+        ResultSet rs = conn.querySelect("SELECT * FROM process-user");
+        while(rs.next()){
+            int aux = rs.getInt("id_process");
+            
+            if(aux != id){
+                users.add(ub.getById(aux));
+            }
+        }
+        return users;*/
     }
 }
