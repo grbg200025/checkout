@@ -45,7 +45,7 @@ public class fAdmin_users extends javax.swing.JFrame {
         
     }
     
-    private void loadAllUsers() throws SQLException{
+    public void loadAllUsers() throws SQLException{
         model = new DefaultTableModel();
         users = ub.getAll();
         

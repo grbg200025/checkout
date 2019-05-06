@@ -12,6 +12,9 @@ import com.cppcorp.persistent.AreaPersistent;
 import com.cppcorp.persistent.ProcessPersistent;
 import com.cppcorp.utilities.viewController;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,11 +27,22 @@ public class NewMain {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws ParseException{
         UserBusiness ub = new UserBusiness();
         AreaBusiness ab = new AreaBusiness();
         
-        ub.getByAreaId(1);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        try {
+            Date date1 = sdf.parse("10:20");
+            Date date2 = sdf.parse("09:40");
+            System.out.println(date1.compareTo(date2));
+            
+            
+            
+        } catch (ParseException ex) {
+            Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
     
     

@@ -94,10 +94,10 @@ public class AreaPersistent {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setInt(1, id);
             ResultSet rs = preparedStmt.executeQuery();
-            rs.next();
+            if(rs.next()){
             a.id = rs.getInt("id");
             a.name = rs.getString("name");
-            
+            }
         }catch(Exception e){
             e.printStackTrace();
         }

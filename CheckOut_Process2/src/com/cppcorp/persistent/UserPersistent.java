@@ -103,10 +103,10 @@ public class UserPersistent extends User {
     public User login(String username, String password){
         Connectiondb conn = new Connectiondb();
         ResultSet rs = conn.querySelect("SELECT * FROM user WHERE username = '"+username+"' AND password = '"+password+"'");
-        User u = new User();
+        User u = null;
         try {
-            rs.next();
-            
+            if(rs.next()){
+            u = new User();
             AreaPersistent ap = new AreaPersistent();
             
             
@@ -118,7 +118,7 @@ public class UserPersistent extends User {
             u.password = rs.getString("password");
             u.admin = rs.getInt("admin");
             u.turn = rs.getInt("turn");
-            
+            }
         } catch (SQLException ex) {
             Logger.getLogger(UserPersistent.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Error : "+ex.toString());
@@ -140,6 +140,7 @@ public class UserPersistent extends User {
             u.id = rs.getInt("id");
             u.area = ap.getById(rs.getInt("id_area"));
             u.name = rs.getString("name");
+            u.last_name = rs.getString("last_name");
             u.username = rs.getString("username");
             u.password = rs.getString("password");
             u.admin = rs.getInt("admin");
@@ -167,6 +168,7 @@ public class UserPersistent extends User {
             u.id = rs.getInt("id");
             u.area = ap.getById(rs.getInt("id_area"));
             u.name = rs.getString("name");
+            u.last_name = rs.getString("last_name");
             u.username = rs.getString("username");
             u.password = rs.getString("password");
             u.admin = rs.getInt("admin");

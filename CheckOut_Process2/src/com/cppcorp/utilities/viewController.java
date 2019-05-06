@@ -11,6 +11,8 @@ import com.cppcorp.views.Admin.fAdmin_MainMenu;
 import com.cppcorp.views.Admin.fAdmin_ap;
 import com.cppcorp.views.Admin.fAdmin_areadetails;
 import com.cppcorp.views.Admin.fAdmin_users;
+import com.cppcorp.views.User.fUser_MainMenu;
+import com.cppcorp.views.User.fUser_MakeRegisters;
 import com.cppcorp.views.fAddArea;
 import com.cppcorp.views.fAddProcess;
 import com.cppcorp.views.fAddUser;
@@ -29,6 +31,9 @@ public class viewController {
     static public fAdmin_users fau;
     static public fAdmin_ap fap;
     static public fAdmin_areadetails faad;
+    
+    static public fUser_MainMenu fum; 
+    static public fUser_MakeRegisters fumr; 
     
     
     static public fAddUser fadu;

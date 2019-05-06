@@ -236,7 +236,7 @@ public class fAddUser extends javax.swing.JFrame {
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
 
         String tname = txtName.getText();
-        String tLastname = txtName.getText();
+        String tLastname = txtLastName.getText();
         String tPass = txtPassword.getText();
         String tCPass = txtConPassword.getText();
         
@@ -250,25 +250,27 @@ public class fAddUser extends javax.swing.JFrame {
                 if(iTurn != 0 /**/){
                     if(tPass.equals(tCPass)){
                         
-                        User u = new User();
-                        if(area != null){
+                        try {
+
+                            User u = new User();
                             
-                            try {
-                                u.area = ab.getById(--iArea);
-                            } catch (SQLException ex) {
-                                Logger.getLogger(fAddUser.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }else{
-                            u.area = area;
+                            u.area = ab.getById(--iArea);
+                            
+                            u.name = tname;
+                            u.last_name = tLastname;
+                            char[] auxName = tname.toCharArray();
+                            u.username = String.valueOf(auxName[0]+tLastname).toUpperCase();
+                            u.password = tPass;
+                            u.turn = iTurn;
+                            u.admin = 0;
+                            ub.Insert(u);
+                            viewController.fau.setVisible(true);
+                            viewController.fau.loadAllUsers();
+                            this.dispose();
+                            
+                        } catch (SQLException ex) {
+                            Logger.getLogger(fAddUser.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        u.name = tname;
-                        u.last_name = tLastname;
-                        char[] auxName = tname.toCharArray();
-                        u.username = String.valueOf(auxName[0]+tLastname).toUpperCase();
-                        u.password = tPass;
-                        u.turn = iTurn;
-                        u.admin = 0;
-                        ub.Insert(u);
                         
                     }else{
                         lbError.setVisible(true);

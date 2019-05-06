@@ -9,8 +9,13 @@ import com.cppcorp.views.Admin.fAdmin_MainMenu;
 import com.cppcorp.business.UserBusiness;
 import com.cppcorp.entities.User;
 import com.cppcorp.utilities.viewController;
+import com.cppcorp.views.User.fUser_MainMenu;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -25,6 +30,7 @@ public class fLogin extends javax.swing.JFrame {
      * Creates new form fLogin
      */
     public fLogin() {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         initComponents();
         lbError.setVisible(false);
     }
@@ -144,10 +150,25 @@ public class fLogin extends javax.swing.JFrame {
                 
                 viewController.fam.setVisible(true);
                 viewController.fl.dispose();
+                this.dispose();
             }else{
-                
+               
+                try {
+                    if (isInTime(u.turn)){
+                        viewController.fum = new fUser_MainMenu();
+                        viewController.fum.setUser(u);
+                        viewController.fum.setVisible(true);
+                        this.dispose();
+                        
+                    }else{
+                        lbError.setVisible(true);
+                        lbError.setText("Esta cuenta no tiene acceso a esta hora");
+                    }
+                } catch (ParseException ex) {
+                    Logger.getLogger(fLogin.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-            this.dispose();
+            
         }else{
             lbError.setVisible(true);
         }
@@ -155,6 +176,31 @@ public class fLogin extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnSigninActionPerformed
 
+    private boolean isInTime(int i) throws ParseException{
+        boolean is = false;
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        
+        Date currentTime = new Date();
+        
+        currentTime = dateFormat.parse(String.valueOf(currentTime.getHours()+":"+currentTime.getMinutes()));
+        
+        Date turn1Start = dateFormat.parse("06:40");
+        Date turn1End = dateFormat.parse("19:40");
+        
+        Date turn2Start = dateFormat.parse("18:40");
+        Date turn2End = dateFormat.parse("7:40");
+        
+        switch (i){
+            case 1:
+                if(currentTime.after(turn1Start) && currentTime.before(turn1End)) is = true;
+                break;
+            case 2:
+                if(currentTime.after(turn2Start) || currentTime.before(turn2End)) is = true;
+                break;
+        }
+        return is;
+        
+    }
     /**
      * @param args the command line arguments
      */
