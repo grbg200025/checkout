@@ -5,6 +5,7 @@
  */
 package com.cppcorp.persistent;
 
+import com.cppcorp.business.AreaBusiness;
 import com.cppcorp.business.UserBusiness;
 import com.cppcorp.entities.ProcessC;
 import com.cppcorp.entities.User;
@@ -27,7 +28,58 @@ public class ProcessPersistent {
      * @throws SQLException 
      */
     public List<ProcessC> getByAreaId(int id) throws SQLException{
-        List<ProcessC> processesc = new ArrayList<>();
+        //What is going to return
+        List<ProcessC> processes = new ArrayList();
+        
+        //Other stuff you may need
+        AreaBusiness ap = new AreaBusiness();
+        ProcessC process;
+        
+        //Values to do the query
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try{
+            
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/process_checkout","root",""
+            );
+            
+	    //The process goes here...
+            String query  = "SELECT * FROM process WHERE id_area = ?";
+
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, id);
+            
+
+            rs = ps.executeQuery();
+            
+            while(rs.next()){
+                process = new ProcessC();
+                process.id = rs.getInt(1);
+                process.area = ap.getById(rs.getInt(2));
+                process.name = rs.getString(3);
+                process.user = getUsersById(process.id, process.area.id);
+                processes.add(process);
+            }
+            
+            
+        }catch(SQLException e){
+            
+        } catch (ClassNotFoundException ex) {
+            
+        }finally{
+            //Close everything avoid get any error for multiple conections
+            try { rs.close(); } catch (Exception e) { /* ignored */ }
+            try { ps.close(); } catch (Exception e) { /* ignored */ }
+            try { conn.close(); } catch (Exception e) { /* ignored */ }
+        }
+        //What is going to return goes here...
+        return processes;
+        
+        /*List<ProcessC> processesc = new ArrayList<>();
         AreaPersistent ap = new AreaPersistent();
         //Aqui hay que hacer el desmadre para obtener el area en el proceso
         Connectiondb conn = new Connectiondb();
@@ -42,38 +94,108 @@ public class ProcessPersistent {
              processesc.add(p);
         }
        
-        return processesc;
+        return processesc;*/
     }
     
     public ProcessC getById(int id) throws SQLException{
-        ProcessC p = new ProcessC();
-        AreaPersistent ap = new AreaPersistent();
-        //Aqui hay que hacer el desmadre para obtener el area en el proceso
-        Connectiondb conn = new Connectiondb();
-        ResultSet rs = conn.querySelect("SELECT * FROM process WHERE id = "+id);
+        //What is going to return
+        ProcessC process = new ProcessC();
         
-        if(rs.next()){
+        //Other stuff you may need
+        AreaPersistent ap = new AreaPersistent();
+        
+        //Values to do the query
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try{
+            
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/process_checkout","root",""
+            );
+            
+	    //The process goes here...
+            String query  = "SELECT * FROM process WHERE id = ?";
+
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, id);
+            
+
+            rs = ps.executeQuery();
+            
+            if(rs.next()){
              
-             p.id = rs.getInt(1);
-             p.area = ap.getById(rs.getInt(2));
-             p.name = rs.getString(3);
-             p.user = getUsersById(p.id, p.area.id);
+                process.id = rs.getInt(1);
+                process.area = ap.getById(rs.getInt(2));
+                process.name = rs.getString(3);
+                process.user = getUsersById(process.id, process.area.id);
              
+            }
+            
+        }catch(SQLException e){
+            
+        } catch (ClassNotFoundException ex) {
+            
+        }finally{
+            //Close everything avoid get any error for multiple conections
+            try { rs.close(); } catch (Exception e) { /* ignored */ }
+            try { ps.close(); } catch (Exception e) { /* ignored */ }
+            try { conn.close(); } catch (Exception e) { /* ignored */ }
         }
-        return p;
+        //What is going to return goes here...
+        return process;
+        
     }
     
     
     
     public boolean exists(int id_area, String name) throws SQLException{
         
-        AreaPersistent ap = new AreaPersistent();
-        //Aqui hay que hacer el desmadre para obtener el area en el proceso
-        Connectiondb conn = new Connectiondb();
-        ResultSet rs = conn.querySelect("SELECT * FROM process WHERE id_area = "+id_area+" AND name = '"+name+"'");
+        //What is going to return
+        boolean found = false;
+        
+        //Other stuff you may need
         
         
-        return rs.next();
+        //Values to do the query
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try{
+            //The process goes here...
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/process_checkout","root",""
+            );
+            
+            String query  = "SELECT * FROM process WHERE id_area = ? AND name = ?";
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, id_area);
+            ps.setString(2, name);
+            
+
+            rs = ps.executeQuery();
+            
+            while(rs.next()){
+                found = true;
+            }
+            
+        }catch(SQLException e){
+            
+        } catch (ClassNotFoundException ex) {
+            
+        }finally{
+            //Close everything avoid get any error for multiple conections
+            try { rs.close(); } catch (Exception e) { /* ignored */ }
+            try { ps.close(); } catch (Exception e) { /* ignored */ }
+            try { conn.close(); } catch (Exception e) { /* ignored */ }
+        }
+        //What is going to return goes here...
+        return found;
+        
     }
     /**
      * This get all the process

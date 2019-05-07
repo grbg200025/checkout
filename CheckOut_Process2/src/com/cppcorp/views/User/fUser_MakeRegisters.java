@@ -7,6 +7,7 @@ package com.cppcorp.views.User;
 
 import com.cppcorp.business.ProcessBusiness;
 import com.cppcorp.business.RegisterBusiness;
+import com.cppcorp.business.UserBusiness;
 import com.cppcorp.entities.ProcessC;
 import com.cppcorp.entities.Register;
 import com.cppcorp.entities.User;
@@ -25,22 +26,33 @@ public class fUser_MakeRegisters extends javax.swing.JFrame {
     DefaultTableModel model;
     public User user = new User();
     ProcessBusiness bp = new ProcessBusiness();
+    UserBusiness up = new UserBusiness();
     ProcessC process = new ProcessC();
     
     
     public fUser_MakeRegisters() {
         initComponents();
+        user = up.getById(14);
+        loadTable();
+        cbBoxes();
     }
     
     public void loadTable(){
+        model = new DefaultTableModel();
         model.addColumn("Hora");
         model.addColumn("Producido");
         model.addColumn("Estimado");
         model.addColumn("Inservible");
         model.addColumn("Diferencia");
         
-        
+        tbRegister.setModel(model);
         }
+    public void cbBoxes(){
+        for (ProcessC processC : user.process) {
+            cbProcess.addItem(processC.name);
+        }
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

@@ -253,16 +253,16 @@ public class fAddUser extends javax.swing.JFrame {
 
                             User u = new User();
                             
-                            u.area = ab.getById(iArea);
+                            ub.area = ab.getById(iArea);
                             
-                            u.name = tname;
-                            u.last_name = tLastname;
+                            ub.name = tname;
+                            ub.last_name = tLastname;
                             char[] auxName = tname.toCharArray();
-                            u.username = String.valueOf(auxName[0]+tLastname).toUpperCase();
-                            u.password = tPass;
-                            u.turn = iTurn;
-                            u.admin = 0;
-                            ub.Insert(u);
+                            ub.username = String.valueOf(auxName[0]+tLastname).toUpperCase();
+                            ub.password = tPass;
+                            ub.turn = iTurn;
+                            ub.admin = 0;
+                            ub.insert();
                             viewController.fau.setVisible(true);
                             viewController.fau.loadAllUsers();
                             this.dispose();

@@ -6,8 +6,6 @@
 package com.cppcorp.persistent;
 
 import com.cppcorp.entities.Area;
-import com.cppcorp.utilities.Connectiondb;
-import com.mysql.jdbc.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -20,7 +18,7 @@ import java.util.List;
  *
  * @author grbg
  */
-public class AreaPersistent {
+public class AreaPersistent extends Area {
     /**
      * This gets all Areas
      * @param aux
@@ -28,84 +26,214 @@ public class AreaPersistent {
      * @throws SQLException 
      */
     
-    public void Insert(String aux){
+    /**
+     * Insert a new Area to the data base
+     * @param aux 
+     */
+    public void insert(){
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(
+            conn = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/process_checkout","root",""
             );
             
             String query = "INSERT INTO area (name) VALUES (?)";
             
             PreparedStatement preparedStmt = conn.prepareStatement(query);
-            preparedStmt.setString(1, aux);
+            preparedStmt.setString(1, name);
             preparedStmt.execute();
-            conn.close();
-        }catch(Exception e){
-            e.printStackTrace();
-        }finally{
             
+        }catch(SQLException e){
+            
+        } catch (ClassNotFoundException ex) {
+            
+        }finally{
+            try {
+                if(rs != null)rs.close();
+            } catch (SQLException e) {
+                /* ignored */ }
+            try {
+                if(ps != null)ps.close();
+            } catch (SQLException e) {
+                /* ignored */ }
+            try {
+                if(conn != null)conn.close();
+            } catch (SQLException e) {
+                /* ignored */ }
         }
+        
     }
     
-    public boolean NameExists(String name){
-        boolean result = false;
+    /**
+     * Check if the name exists in the data base
+     * @param name 
+     * @return 
+     */
+    public boolean nameExists(String name){
+        //What is going to return
+        boolean result = true;
+        
+        //Values to do the query
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        
+        
         try{
+            //The process goes here...
             Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(
+            conn = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/process_checkout","root",""
             );
             
             String query = "SELECT * FROM area  WHERE name = (?)";
             
-            PreparedStatement preparedStmt = conn.prepareStatement(query);
-            preparedStmt.setString(1, name);
-            ResultSet rs = preparedStmt.executeQuery();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, name);
+            rs = ps.executeQuery();
             result = rs.next();
-            conn.close();
-        }catch(Exception e){
-            e.printStackTrace();
+            
+        }catch(SQLException e){
+            
+        } catch (ClassNotFoundException ex) {
+            
+        }finally{
+            try {
+                if(rs != null)rs.close();
+            } catch (SQLException e) {
+                /* ignored */ }
+            try {
+                if(ps != null)ps.close();
+            } catch (SQLException e) {
+                /* ignored */ }
+            try {
+                if(conn != null)conn.close();
+            } catch (SQLException e) {
+                /* ignored */ }
         }
+        //What is going to return goes here...
         return result;
+        
     }
     
+    /**
+     * 
+     * @return get all the areas
+     * @throws SQLException 
+     */
     public List<Area> getAll() throws SQLException{
-        List<Area> areas = new ArrayList<>();
-        Connectiondb conn = new Connectiondb();
-        ResultSet rs = conn.querySelect("SELECT * FROM area");
+        
+        //What is going to return
+        List<Area> areas = new ArrayList();
+        
+        //Values to do the query
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         
         
-        while(rs.next()){
-            Area area = new Area();
-            area.id = rs.getInt("id");
-            area.name = rs.getString("name");
-            areas.add(area);
+        
+        try{
+            //The process goes here...
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/process_checkout","root",""
+            );
+            
+            String query = "SELECT * FROM area";
+            
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            rs = preparedStmt.executeQuery();
+            
+            while(rs.next()){
+                Area area = new Area();
+                area.id = rs.getInt("id");
+                area.name = rs.getString("name");
+                areas.add(area);
+            }
+            
+        }catch(SQLException e){
+            
+        } catch (ClassNotFoundException ex) {
+            
+        }finally{
+            //Close everything avoid get any error for multiple conections
+            try {
+                if(rs != null)rs.close();
+            } catch (SQLException e) {
+                /* ignored */ }
+            try {
+                if(ps != null)ps.close();
+            } catch (SQLException e) {
+                /* ignored */ }
+            try {
+                if(conn != null)conn.close();
+            } catch (SQLException e) {
+                /* ignored */ }
         }
-        
+        //What is going to return goes here...
         return areas;
+        
     }
     
+    /**
+     * 
+     * @param id the id of the Area what is require
+     * @return Area by id
+     * @throws SQLException 
+     */
     public Area getById(int id) throws SQLException{
-        Area a = new Area();
+        
+        //What is going to return
+        Area area = new Area();
+        
+        //Values to do the query
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
         try{
+            //The process goes here...
             Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(
+            conn = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/process_checkout","root",""
             );
             
             String query = "SELECT * FROM area WHERE id = ?";
             
-            PreparedStatement preparedStmt = conn.prepareStatement(query);
-            preparedStmt.setInt(1, id);
-            ResultSet rs = preparedStmt.executeQuery();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
             if(rs.next()){
-            a.id = rs.getInt("id");
-            a.name = rs.getString("name");
-            conn.close();
+            area.id = rs.getInt("id");
+            area.name = rs.getString("name");
             }
-        }catch(Exception e){
-            e.printStackTrace();
+        }    
+        catch(SQLException e){
+            
+        }catch (ClassNotFoundException ex) {
+            
+        }finally{
+            try {
+                if(rs != null)rs.close();
+            } catch (SQLException e) {
+                /* ignored */ }
+            try {
+                if(ps != null)ps.close();
+            } catch (SQLException e) {
+                /* ignored */ }
+            try {
+                if(conn != null)conn.close();
+            } catch (SQLException e) {
+                /* ignored */ }
         }
-        return a;
+        //What is going to return goes here...
+        return area;
+        
     }
 }

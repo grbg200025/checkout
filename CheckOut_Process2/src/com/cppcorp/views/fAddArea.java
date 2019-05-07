@@ -116,8 +116,9 @@ public class fAddArea extends javax.swing.JFrame {
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
         AreaBusiness ab = new AreaBusiness();
         String tname = txtName.getText();
-        if(!ab.NameExists(tname)){
-            ab.Insert(tname);
+        if(!ab.nameExists(tname)){
+            ab.name = tname;
+            ab.insert();
             viewController.fap.setVisible(true);
             try {
                 viewController.fap.loadTables();

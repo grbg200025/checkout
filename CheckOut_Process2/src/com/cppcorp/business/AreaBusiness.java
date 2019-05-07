@@ -15,6 +15,5 @@ import java.util.List;
  * @author grbg2
  */
 public class AreaBusiness extends AreaPersistent {
-    
-    
+    Area area = new Area();
 }
