@@ -5,7 +5,10 @@
  */
 package com.cppcorp.persistent;
 
+import com.cppcorp.business.ProcessBusiness;
+import com.cppcorp.business.UserBusiness;
 import com.cppcorp.entities.Area;
+import com.cppcorp.entities.ProcessC;
 import com.cppcorp.entities.User;
 import com.cppcorp.utilities.Connectiondb;
 import java.sql.Connection;
@@ -44,9 +47,32 @@ public class UserPersistent extends User {
             user.password = rs.getString("password");
             user.admin = rs.getInt("admin");
             user.turn = rs.getInt("turn");
+            
+            user.process = getProcesses(user.id);
+            
             users.add(user);
         }
         return users;
+    }
+    
+    public List <ProcessC>getProcesses(int id){
+        ProcessBusiness pb = new ProcessBusiness();
+            List<ProcessC> processes = new ArrayList();
+        try {
+            
+            AreaPersistent ap = new AreaPersistent();
+            //Aqui hay que hacer el desmadre para obtener el area en el proceso
+            Connectiondb conn = new Connectiondb();
+            ResultSet rs = conn.querySelect("SELECT * FROM processuser WHERE id_user = "+id);
+            
+            while(rs.next()){
+                processes.add(pb.getById(rs.getInt("id_process")));
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(UserPersistent.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return processes;
     }
     
     public List<User> search(String s) throws SQLException, ClassNotFoundException{
@@ -75,6 +101,7 @@ public class UserPersistent extends User {
             user.turn = rs.getInt("turn");
             users.add(user);
         }
+        conn.close();
         return users;
     }
     /**
@@ -117,6 +144,7 @@ public class UserPersistent extends User {
             u.username = rs.getString("username");
             u.password = rs.getString("password");
             u.admin = rs.getInt("admin");
+            u.process = getProcesses(u.id);
             u.turn = rs.getInt("turn");
             }
         } catch (SQLException ex) {
@@ -145,7 +173,7 @@ public class UserPersistent extends User {
             u.password = rs.getString("password");
             u.admin = rs.getInt("admin");
             u.turn = rs.getInt("turn");
-            
+            u.process = getProcesses(u.id);
         } catch (SQLException ex) {
             Logger.getLogger(UserPersistent.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Error : "+ex.toString());
@@ -173,6 +201,7 @@ public class UserPersistent extends User {
             u.password = rs.getString("password");
             u.admin = rs.getInt("admin");
             u.turn = rs.getInt("turn");
+            u.process = getProcesses(u.id);
             }
             
         } catch (SQLException ex) {
@@ -202,6 +231,8 @@ public class UserPersistent extends User {
             u.password = rs.getString("password");
             u.admin = rs.getInt("admin");
             u.turn = rs.getInt("turn");
+            u.process = getProcesses(u.id);
+            users.add(u);
             }
             
         } catch (SQLException ex) {
@@ -230,6 +261,7 @@ public class UserPersistent extends User {
             preparedStmt.setInt(6, u.admin);
             preparedStmt.setInt(7, u.turn);
             preparedStmt.execute();
+            conn.close();
         }catch(Exception e){
             e.printStackTrace();
         }

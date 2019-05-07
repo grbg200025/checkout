@@ -234,7 +234,6 @@ public class fAddUser extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
-
         String tname = txtName.getText();
         String tLastname = txtLastName.getText();
         String tPass = txtPassword.getText();
@@ -254,7 +253,7 @@ public class fAddUser extends javax.swing.JFrame {
 
                             User u = new User();
                             
-                            u.area = ab.getById(--iArea);
+                            u.area = ab.getById(iArea);
                             
                             u.name = tname;
                             u.last_name = tLastname;

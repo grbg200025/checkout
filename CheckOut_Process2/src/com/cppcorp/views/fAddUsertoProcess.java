@@ -6,8 +6,12 @@
 package com.cppcorp.views;
 
 import com.cppcorp.business.AreaBusiness;
+import com.cppcorp.business.ProcessBusiness;
 import com.cppcorp.business.UserBusiness;
+import com.cppcorp.entities.ProcessC;
 import com.cppcorp.entities.User;
+import com.cppcorp.utilities.viewController;
+import com.cppcorp.views.Admin.fAdmin_processdetails;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -19,26 +23,28 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author grbg
  */
-public class JAddUsertoProcess extends javax.swing.JFrame {
+public class fAddUsertoProcess extends javax.swing.JFrame {
 
     /**
      * Creates new form JAddUsertoProcess
      */
     List<User> users;
     UserBusiness ub = new UserBusiness();
+    ProcessBusiness pb = new ProcessBusiness();
     DefaultTableModel model = new DefaultTableModel();
     AreaBusiness ab = new AreaBusiness();
     User user;
+    public ProcessC process = new ProcessC();
     
-    public JAddUsertoProcess() throws SQLException {
+    public fAddUsertoProcess() throws SQLException {
         initComponents();
-        loadAllUsers();
+        
     }
     
     public void loadAllUsers() throws SQLException{
         model = new DefaultTableModel();
-        users = ub.getAll();
-        
+        users = pb.getNoAdded(process);
+        //users = ub.getAll();
         model.addColumn("Area");
         model.addColumn("Nombre");
         model.addColumn("Apellido");
@@ -96,8 +102,7 @@ public class JAddUsertoProcess extends javax.swing.JFrame {
         btnSearch = new javax.swing.JButton();
         btnResetSearch = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
-        btnAdd = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -136,15 +141,13 @@ public class JAddUsertoProcess extends javax.swing.JFrame {
         });
 
         btnCancel.setText("Cancelar");
-
-        btnAdd.setText("Agregar");
-        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddActionPerformed(evt);
+                btnCancelActionPerformed(evt);
             }
         });
 
-        jButton1.setText("jButton1");
+        jLabel2.setText("Haga click en el usuario que desee agregar");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -155,27 +158,29 @@ public class JAddUsertoProcess extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSearch)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnResetSearch)
-                        .addGap(0, 89, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnCancel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAdd)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnCancel)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnSearch)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnResetSearch)))))
+                        .addGap(0, 89, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(171, Short.MAX_VALUE)
+                .addContainerGap(141, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel1)
@@ -186,10 +191,7 @@ public class JAddUsertoProcess extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCancel)
-                    .addComponent(btnAdd)
-                    .addComponent(jButton1))
+                .addComponent(btnCancel)
                 .addContainerGap())
         );
 
@@ -211,10 +213,18 @@ public class JAddUsertoProcess extends javax.swing.JFrame {
         try{
             int index = tbUsers.getSelectedRow();
             User aux = users.get(index);
-            JOptionPane.showMessageDialog(this, aux.name);
+            pb.insertUser(viewController.fapd.process.area.id,viewController.fapd.process.id, aux.id);
+            
+            viewController.fapd.process = pb.getById(viewController.fapd.process.id);
+            viewController.fapd.loadTables();
+            viewController.fapd.setVisible(true);
+            this.dispose();
+            
 
         }catch(IndexOutOfBoundsException e){
 
+        } catch (SQLException ex) {
+            Logger.getLogger(fAddUsertoProcess.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_tbUsersMouseClicked
@@ -223,9 +233,9 @@ public class JAddUsertoProcess extends javax.swing.JFrame {
         try {
             loadAllSearchedUsers(txtSearch.getText());
         } catch (SQLException ex) {
-            Logger.getLogger(JAddUsertoProcess.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(fAddUsertoProcess.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(JAddUsertoProcess.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(fAddUsertoProcess.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnSearchActionPerformed
 
@@ -233,13 +243,15 @@ public class JAddUsertoProcess extends javax.swing.JFrame {
         try {
             loadAllUsers();
         } catch (SQLException ex) {
-            Logger.getLogger(JAddUsertoProcess.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(fAddUsertoProcess.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnResetSearchActionPerformed
 
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnAddActionPerformed
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        viewController.fapd.setVisible(true);
+        dispose();
+        
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -258,35 +270,35 @@ public class JAddUsertoProcess extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JAddUsertoProcess.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(fAddUsertoProcess.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JAddUsertoProcess.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(fAddUsertoProcess.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JAddUsertoProcess.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(fAddUsertoProcess.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JAddUsertoProcess.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(fAddUsertoProcess.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new JAddUsertoProcess().setVisible(true);
+                    new fAddUsertoProcess().setVisible(true);
                 } catch (SQLException ex) {
-                    Logger.getLogger(JAddUsertoProcess.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(fAddUsertoProcess.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnResetSearch;
     private javax.swing.JButton btnSearch;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tbUsers;

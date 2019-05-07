@@ -156,7 +156,8 @@ public class fLogin extends javax.swing.JFrame {
                 try {
                     if (isInTime(u.turn)){
                         viewController.fum = new fUser_MainMenu();
-                        viewController.fum.setUser(u);
+                        viewController.fum.user = u;
+                        viewController.fum.loadTable();
                         viewController.fum.setVisible(true);
                         this.dispose();
                         

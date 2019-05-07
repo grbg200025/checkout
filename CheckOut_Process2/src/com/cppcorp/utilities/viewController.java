@@ -17,6 +17,7 @@ import com.cppcorp.views.User.fUser_MakeRegisters;
 import com.cppcorp.views.fAddArea;
 import com.cppcorp.views.fAddProcess;
 import com.cppcorp.views.fAddUser;
+import com.cppcorp.views.fAddUsertoProcess;
 import com.cppcorp.views.fLogin;
 
 /**
@@ -42,6 +43,7 @@ public class viewController {
     static public fAddUser fadu;
     static public fAddProcess fadp;
     static public fAddArea fada;
+    static public fAddUsertoProcess fautp;
     
     
 }

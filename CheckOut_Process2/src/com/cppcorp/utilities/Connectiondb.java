@@ -28,6 +28,7 @@ public class Connectiondb {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+                
         return rs;        
 	}
     public void queryInsert(String query, PreparedStatement preparedstatement){

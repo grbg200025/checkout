@@ -40,8 +40,11 @@ public class AreaPersistent {
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.setString(1, aux);
             preparedStmt.execute();
+            conn.close();
         }catch(Exception e){
             e.printStackTrace();
+        }finally{
+            
         }
     }
     
@@ -59,6 +62,7 @@ public class AreaPersistent {
             preparedStmt.setString(1, name);
             ResultSet rs = preparedStmt.executeQuery();
             result = rs.next();
+            conn.close();
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -97,6 +101,7 @@ public class AreaPersistent {
             if(rs.next()){
             a.id = rs.getInt("id");
             a.name = rs.getString("name");
+            conn.close();
             }
         }catch(Exception e){
             e.printStackTrace();

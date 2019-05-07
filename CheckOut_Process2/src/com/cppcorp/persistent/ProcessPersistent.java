@@ -41,7 +41,26 @@ public class ProcessPersistent {
              p.user = getUsersById(p.id, p.area.id);
              processesc.add(p);
         }
+       
         return processesc;
+    }
+    
+    public ProcessC getById(int id) throws SQLException{
+        ProcessC p = new ProcessC();
+        AreaPersistent ap = new AreaPersistent();
+        //Aqui hay que hacer el desmadre para obtener el area en el proceso
+        Connectiondb conn = new Connectiondb();
+        ResultSet rs = conn.querySelect("SELECT * FROM process WHERE id = "+id);
+        
+        if(rs.next()){
+             
+             p.id = rs.getInt(1);
+             p.area = ap.getById(rs.getInt(2));
+             p.name = rs.getString(3);
+             p.user = getUsersById(p.id, p.area.id);
+             
+        }
+        return p;
     }
     
     
@@ -97,6 +116,27 @@ public class ProcessPersistent {
         }
     }
     
+    public void insertUser(int id_area, int id_process, int id_user){
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/process_checkout","root",""
+            );
+            
+            String query = "INSERT INTO processuser (id_area, id_process, id_user) VALUES (?, ?, ?)";
+            
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setInt(1, id_area);
+            preparedStmt.setInt(2, id_process);
+            preparedStmt.setInt(3, id_user);
+            
+            preparedStmt.execute();
+            conn.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
     public List<User> getUsersById(int id, int id_area) throws SQLException{
         UserBusiness ub = new UserBusiness();
         List<User> users = new ArrayList<>();
@@ -111,30 +151,29 @@ public class ProcessPersistent {
         return users;
     }
     
-    public List<User> getUsersByIdNotIncluded(int id, int id_area) throws SQLException{
+    public List<User> getUsersByIdNotIncluded(int id_process, int id_area) throws SQLException{
         UserBusiness ub = new UserBusiness();
+        List<User> aux = ub.getAll();
         List<User> users = new ArrayList<>();
         AreaPersistent ap = new AreaPersistent();
-        //Aqui hay que hacer el desmadre para obtener el area en el proceso
         Connectiondb conn = new Connectiondb();
-        ResultSet rs = conn.querySelect("SELECT * FROM processuser WHERE id_area = ("+id_area+") OR id_process NOT IN ("+id+")");
         
-        while(rs.next()){
-             users.add(ub.getById(rs.getInt("id_user")));
+        aux = ub.getByAreaId(id_area);
+        
+        ResultSet rs = conn.querySelect("SELECT * FROM processuser");
+        
+        for(User a : aux){
+            boolean exist = false;
+            while(rs.next()){
+                exist = (
+                        a.area.id == id_area  &&//Evaluate if it is in the same area
+                                a.id != rs.getInt("id_user") && //If the user is already registered
+                                    id_process != rs.getInt("id_process")//and if it is registered in the process
+                                )? true : false;
+            }if(!exist)users.add(a);
         }
+        
         return users;
-        /*List<User> users = new ArrayList();
-        UserBusiness ub = new UserBusiness();
         
-        Connectiondb conn = new Connectiondb();
-        ResultSet rs = conn.querySelect("SELECT * FROM process-user");
-        while(rs.next()){
-            int aux = rs.getInt("id_process");
-            
-            if(aux != id){
-                users.add(ub.getById(aux));
-            }
-        }
-        return users;*/
     }
 }

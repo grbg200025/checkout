@@ -120,7 +120,7 @@ public final class fAdmin_MainMenu extends javax.swing.JFrame {
             viewController.fau = new fAdmin_users();
             
             viewController.fau.setVisible(true);
-            viewController.fam.setVisible(false);
+            
         } catch (SQLException ex) {
             Logger.getLogger(fAdmin_MainMenu.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -131,6 +131,7 @@ public final class fAdmin_MainMenu extends javax.swing.JFrame {
         
         viewController.fl = new fLogin();
         viewController.fl.setVisible(true);
+        dispose();
         
     }//GEN-LAST:event_lbSalirMouseClicked
 
