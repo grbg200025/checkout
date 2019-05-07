@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 05, 2019 at 04:31 AM
+-- Generation Time: May 07, 2019 at 07:20 AM
 -- Server version: 10.1.38-MariaDB
--- PHP Version: 7.1.28
+-- PHP Version: 7.3.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -41,7 +41,10 @@ INSERT INTO `area` (`id`, `name`) VALUES
 (1, 'Splits'),
 (2, 'Gage'),
 (3, 'Heat Treat'),
-(4, 'Shell');
+(4, 'Shell'),
+(5, 'TestArea'),
+(6, 'Another Test'),
+(7, 'Just a Test');
 
 -- --------------------------------------------------------
 
@@ -61,7 +64,35 @@ CREATE TABLE `process` (
 
 INSERT INTO `process` (`id`, `id_area`, `name`) VALUES
 (21, 1, 'Test'),
-(22, 1, 'Test2');
+(22, 1, 'Test2'),
+(23, 2, 'medicion');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `processuser`
+--
+
+CREATE TABLE `processuser` (
+  `id` int(11) NOT NULL,
+  `id_area` int(11) NOT NULL,
+  `id_process` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `processuser`
+--
+
+INSERT INTO `processuser` (`id`, `id_area`, `id_process`, `id_user`) VALUES
+(1, 1, 21, 14),
+(2, 1, 22, 15),
+(3, 1, 22, 16),
+(4, 1, 22, 16),
+(5, 1, 21, 16),
+(6, 1, 21, 16),
+(7, 2, 23, 18),
+(8, 2, 23, 17);
 
 -- --------------------------------------------------------
 
@@ -73,7 +104,8 @@ CREATE TABLE `register` (
   `id` int(11) NOT NULL,
   `id_process` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `dateRegistered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date` date NOT NULL,
   `microcell` int(11) NOT NULL,
   `produce` int(11) NOT NULL,
   `estimate` int(11) NOT NULL,
@@ -103,8 +135,16 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `id_area`, `name`, `last_name`, `username`, `password`, `admin`, `turn`) VALUES
-(3, 1, 'Gabriel', 'Becerra', 'GBecerra', 'gbecerra', 1, 0),
-(4, 1, 'Gabriel', 'Becerra', 'GBecerra', 'gbecerra', 1, 0);
+(8, 0, 'Gabriel', 'Becerra', 'GBECERRA', 'gbecerra', 1, 0),
+(14, 1, 'Johnny', 'Cage', 'JCAGE', 'pass', 0, 1),
+(15, 1, 'Pedro', 'Gonzalez', 'PGONZALEZ', 'p', 0, 1),
+(16, 1, 'Carlos', 'Santana', 'CSANTANA', 'pass', 0, 1),
+(17, 2, 'Camila', 'Becerra', 'CBECERRA', 'pass', 0, 2),
+(18, 2, 'Jesus', 'Becerra', 'JBECERRA', 's', 0, 1),
+(19, 2, 'Guadalupe', 'Trujillo', 'GTRUJILLO', 'p', 0, 1),
+(20, 3, 'Fernando', 'Mata', 'FMATA', 'p', 0, 2),
+(21, 1, 'Fernando', 'Mata', 'FMATA', 'p', 0, 1),
+(22, 1, 'Julio', 'Perez', 'JPEREZ', 'p', 0, 1);
 
 --
 -- Indexes for dumped tables
@@ -120,6 +160,12 @@ ALTER TABLE `area`
 -- Indexes for table `process`
 --
 ALTER TABLE `process`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `processuser`
+--
+ALTER TABLE `processuser`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -142,13 +188,19 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `area`
 --
 ALTER TABLE `area`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `process`
 --
 ALTER TABLE `process`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT for table `processuser`
+--
+ALTER TABLE `processuser`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `register`
@@ -160,7 +212,7 @@ ALTER TABLE `register`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
